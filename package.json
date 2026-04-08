@@ -1,0 +1,24 @@
+{
+  "name": "empreviz",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --open"
+  },
+  "dependencies": {
+    "@deck.gl/core": "^9",
+    "@deck.gl/extensions": "^9.2.11",
+    "@deck.gl/geo-layers": "^9",
+    "@deck.gl/layers": "^9",
+    "@deck.gl/mesh-layers": "^9.2.11",
+    "@loaders.gl/core": "^4",
+    "@loaders.gl/mvt": "^4",
+    "maplibre-gl": "^4",
+    "pmtiles": "^3"
+  },
+  "devDependencies": {
+    "vite": "^5"
+  }
+}

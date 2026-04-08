@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estabelecimentos BR</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { width: 100vw; height: 100vh; overflow: hidden; background: #0d1117; }
+    #map { position: absolute; inset: 0; }
+    #deck-canvas { position: absolute; inset: 0; }
+
+    /* ── painel geral ── */
+    #ui {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 10;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 13px;
+      color: #e8e8e8;
+    }
+
+    /* ── card base ── */
+    .panel {
+      background: rgba(10, 10, 20, 0.85);
+      border-radius: 10px;
+      padding: 12px 14px;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.08);
+      min-width: 210px;
+    }
+    .panel-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      opacity: 0.5;
+      margin-bottom: 8px;
+    }
+
+    /* ── controles de mapa ── */
+    #map-controls { display: flex; flex-direction: column; gap: 8px; }
+
+    select#style-select {
+      width: 100%;
+      background: rgba(255,255,255,0.08);
+      color: #e8e8e8;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-size: 12px;
+      cursor: pointer;
+      appearance: auto;
+    }
+    select#style-select:focus { outline: none; border-color: rgba(255,255,255,0.3); }
+
+    #labels-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
+    #labels-row input[type="checkbox"] {
+      accent-color: #aaa;
+      width: 13px;
+      height: 13px;
+      cursor: pointer;
+    }
+
+    /* ── legenda ── */
+    #legend h3 {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      opacity: 0.5;
+      margin-bottom: 10px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0;
+      cursor: pointer;
+      user-select: none;
+    }
+    .legend-item input[type="checkbox"] {
+      accent-color: #aaa;
+      width: 13px;
+      height: 13px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .legend-item:has(input:not(:checked)) span:last-child { opacity: 0.35; }
+    .legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .legend-count { opacity: 0.45; font-size: 11px; }
+    #legend-empty { opacity: 0.4; font-size: 12px; }
+    #legend-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .btn-filter {
+      flex: 1;
+      background: rgba(255,255,255,0.1);
+      color: #e8e8e8;
+      border: none;
+      padding: 6px 0;
+      border-radius: 5px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .btn-filter:hover { background: rgba(255,255,255,0.18); }
+
+    /* ── exportar ── */
+    /* ── rodapé ── */
+    #counter {
+      position: absolute;
+      bottom: 24px;
+      left: 16px;
+      background: rgba(10,10,20,0.75);
+      color: rgba(255,255,255,0.5);
+      font-family: system-ui, sans-serif;
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      z-index: 10;
+      backdrop-filter: blur(4px);
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <canvas id="deck-canvas"></canvas>
+
+  <div id="ui">
+
+    <!-- controles de mapa base -->
+    <div class="panel" id="map-controls">
+      <div class="panel-label">Mapa base</div>
+      <select id="style-select">
+        <option value="dark-matter">Dark Matter</option>
+        <option value="positron">Positron</option>
+        <option value="voyager">Voyager</option>
+      </select>
+      <label id="labels-row">
+        <input type="checkbox" id="labels-check" checked />
+        <span>Labels</span>
+      </label>
+    </div>
+
+    <!-- legenda + filtro de tipos -->
+    <div class="panel" id="legend">
+      <h3>Tipo de Estabelecimento</h3>
+      <div id="legend-items">
+        <span id="legend-empty">carregando…</span>
+      </div>
+      <div id="legend-actions">
+        <button class="btn-filter" id="btn-all">Tudo</button>
+        <button class="btn-filter" id="btn-none">Nada</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="counter">CNEFE · IBGE · ~8M estabelecimentos</div>
+
+  <script type="module" src="/src/map.js"></script>
+</body>
+</html>
