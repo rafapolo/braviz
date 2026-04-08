@@ -13,8 +13,8 @@
     "@deck.gl/geo-layers": "^9",
     "@deck.gl/layers": "^9",
     "@deck.gl/mesh-layers": "^9.2.11",
-    "@loaders.gl/core": "^4",
-    "@loaders.gl/mvt": "^4",
+    "@loaders.gl/core": "~4.3.4",
+    "@loaders.gl/mvt": "~4.3.4",
     "maplibre-gl": "^4",
     "pmtiles": "^3"
   },
